@@ -1,22 +1,23 @@
 /* The goal is to produce a unique json made with both country's data and emoji flag */
 const fs = require('fs');
-const countriesSpec = require('./baseJson/countriesSpec.json').data;
+const countriesSpec = require('./baseJson/countriesSpec.json');
 const countryFlags = require('./baseJson/countriesFlagEmoji.json');
 
 const countries = [];
-const baseUrl = "https://github.com/PatrissolJuns/countries/data/";
+const baseUrl = "https://raw.githubusercontent.com/PatrissolJuns/countries/main/data/";
 
 countriesSpec.forEach(country => {
    const cf = countryFlags[country.alpha2Code];
    if (cf) {
+      const prefix = country.alpha3Code.toLowerCase();
       country.flag = {
          emoji: cf.emoji,
          unicode: cf.unicode,
-         image: baseUrl + country.alpha2Code + '.svg'
+         image: baseUrl + prefix + '.svg'
       };
       country.map = {
-         geo: baseUrl + country.alpha2Code + '.geo.json',
-         topo: baseUrl + country.alpha2Code + '.topo.json',
+         geo: baseUrl + prefix + '.geo.json',
+         topo: baseUrl + prefix + '.topo.json',
       }
       countries.push(country);
    }
